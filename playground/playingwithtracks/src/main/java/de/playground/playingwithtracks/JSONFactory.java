@@ -1,35 +1,28 @@
 package de.playground.playingwithtracks;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JSONFactory {
+
+	private static final Logger log = LoggerFactory
+			.getLogger(JSONFactory.class);
 
 	private JSONRequest m_jsonRequest = null;
 
-	private boolean m_isPost = true;
-
-	private static final String GOOGLE_TRACKS_URL = "https://www.googleapis.com/tracks/v1/";
-
-	public JSONFactory(JSONRequest jsonRequest, boolean isPost) {
+	public JSONFactory(JSONRequest jsonRequest) {
 		m_jsonRequest = jsonRequest;
-		m_isPost = isPost;
 	}
 
 	public JSONResponse sendJSONRequest() {
+		URLConnectorJSON connector = new URLConnectorJSON(
+				m_jsonRequest.getHttpMethod());
 
-		String request = toJSON();
+		String responseString = connector.castRequest(m_jsonRequest);
 
-		URLConnectorJSON connector = new URLConnectorJSON(m_isPost);
+		JSONResponse jsonResponse = new CreateEntityResponse();
+		// jsonResponse.constructResponse(responseString);
 
-		String response = connector.send(request);
-
-		return null;
-	}
-
-	private String toJSON() {
-
-		return m_jsonRequest.constructRequest();
-	}
-
-	private String getUrl() {
-		return GOOGLE_TRACKS_URL + m_jsonRequest.getPathToMethod();
+		return jsonResponse;
 	}
 }

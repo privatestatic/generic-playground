@@ -1,13 +1,19 @@
 package de.playground.playingwithtracks.prototype.container;
 
 public class Entity {
+	private String name;
+	private String type;
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public Entity(String name, String type) {
+		this.name = name;
+		this.type = type;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public String getType() {
+		return type;
+	}
 }
