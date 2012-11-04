@@ -15,8 +15,7 @@ public class JSONFactory {
 	}
 
 	public JSONResponse sendJSONRequest() {
-		URLConnectorJSON connector = new URLConnectorJSON(
-				m_jsonRequest.getHttpMethod());
+		URLConnectorJSON connector = new URLConnectorJSON();
 
 		String responseString = connector.castRequest(m_jsonRequest);
 

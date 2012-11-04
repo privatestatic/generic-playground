@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.URL;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,17 +18,11 @@ public class URLConnectorJSON {
 		GET, POST
 	}
 
-	private Method m_method = Method.POST;
-
-	public URLConnectorJSON(Method method) {
-		m_method = method;
-	}
-
 	public String castRequest(JSONRequest request) {
 		String responseString = "";
 		try {
-			BufferedReader inputReader = createReader(request.getRequestURL(),
-					request.getRequestBody());
+			HttpURLConnection connection = sendRequest(request);
+			BufferedReader inputReader = createReader(connection);
 			responseString = readDocument(inputReader);
 		} catch (IOException e) {
 			log.error(e.toString());
@@ -39,16 +31,21 @@ public class URLConnectorJSON {
 		return responseString;
 	}
 
-	private BufferedReader createReader(URL requestURL, String body)
+	private HttpURLConnection sendRequest(JSONRequest request)
 			throws IOException {
-		BufferedReader inputReader = null;
 
 		if (log.isDebugEnabled()) {
-			log.debug("Sending request body: " + body);
+			log.debug("Sending request body: " + request.getRequestBody());
 		}
 
-		HttpURLConnection connection = connectToURL(requestURL, body);
-		sendBody(body, connection);
+		HttpURLConnection connection = connectToURL(request);
+		sendBody(request.getRequestBody(), connection);
+		return connection;
+	}
+
+	private BufferedReader createReader(HttpURLConnection connection)
+			throws IOException {
+		BufferedReader inputReader = null;
 
 		InputStream inputStream = connection.getInputStream();
 		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -58,16 +55,18 @@ public class URLConnectorJSON {
 		return inputReader;
 	}
 
-	private HttpURLConnection connectToURL(URL url, String body)
+	private HttpURLConnection connectToURL(JSONRequest request)
 			throws IOException {
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod(m_method.toString());
+		HttpURLConnection connection = (HttpURLConnection) request
+				.getRequestURL().openConnection();
+		connection.setRequestMethod(request.getHttpMethod().toString());
 		connection.setDoInput(true);
 		connection.setDoOutput(true);
 		connection.setUseCaches(false);
 		connection.setRequestProperty("Content-Type", "application/json");
 		connection.setRequestProperty("charset", "utf-8");
-		connection.setRequestProperty("Content-Length", String.valueOf(body));
+		connection.setRequestProperty("Content-Length",
+				String.valueOf(request.getRequestBody()));
 
 		return connection;
 	}
