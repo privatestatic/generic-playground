@@ -1,4 +1,4 @@
-package de.playground.playingwithtracks;
+package de.playground.playingwithtracks.requests;
 
 import java.net.MalformedURLException;
 import java.net.URL;

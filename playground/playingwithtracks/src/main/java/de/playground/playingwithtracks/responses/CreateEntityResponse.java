@@ -1,4 +1,4 @@
-package de.playground.playingwithtracks;
+package de.playground.playingwithtracks.responses;
 
 import org.json.JSONObject;
 

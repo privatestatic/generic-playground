@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.playground.playingwithtracks.prototype.container.Entity;
+import de.playground.playingwithtracks.requests.CreateEntityRequest;
+import de.playground.playingwithtracks.requests.JSONRequest;
 
 public class TracksExample {
 	private static final Logger log = LoggerFactory

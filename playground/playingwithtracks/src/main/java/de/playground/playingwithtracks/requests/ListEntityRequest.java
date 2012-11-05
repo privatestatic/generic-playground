@@ -1,4 +1,4 @@
-package de.playground.playingwithtracks;
+package de.playground.playingwithtracks.requests;
 
 import de.playground.playingwithtracks.URLConnectorJSON.Method;
 

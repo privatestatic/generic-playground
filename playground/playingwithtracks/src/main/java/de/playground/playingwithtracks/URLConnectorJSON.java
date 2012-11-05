@@ -6,8 +6,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.playground.playingwithtracks.requests.JSONRequest;
 
 public class URLConnectorJSON {
 
@@ -21,6 +25,9 @@ public class URLConnectorJSON {
 	public String castRequest(JSONRequest request) {
 		String responseString = "";
 		try {
+
+			// TODO Do the oauth2 authentication with the google server
+
 			HttpURLConnection connection = sendRequest(request);
 			BufferedReader inputReader = createReader(connection);
 			responseString = readDocument(inputReader);
@@ -38,8 +45,20 @@ public class URLConnectorJSON {
 			log.debug("Sending request body: " + request.getRequestBody());
 		}
 
-		HttpURLConnection connection = connectToURL(request);
-		sendBody(request.getRequestBody(), connection);
+		HttpURLConnection connection = createConnection(request);
+
+		switch (request.getHttpMethod()) {
+		case GET:
+			// TODO Handle GET request
+			break;
+		case POST:
+			prepareHttpPostHeader(connection, request);
+			sendBody(request.getRequestBody(), connection);
+			break;
+		default:
+			break;
+		}
+
 		return connection;
 	}
 
@@ -55,20 +74,29 @@ public class URLConnectorJSON {
 		return inputReader;
 	}
 
-	private HttpURLConnection connectToURL(JSONRequest request)
+	private HttpURLConnection createConnection(JSONRequest request)
 			throws IOException {
 		HttpURLConnection connection = (HttpURLConnection) request
 				.getRequestURL().openConnection();
-		connection.setRequestMethod(request.getHttpMethod().toString());
+		configureConnection(connection, request.getHttpMethod());
+
+		return connection;
+	}
+
+	private void configureConnection(HttpURLConnection connection, Method method)
+			throws ProtocolException {
+		connection.setRequestMethod(method.toString());
 		connection.setDoInput(true);
 		connection.setDoOutput(true);
 		connection.setUseCaches(false);
+	}
+
+	private void prepareHttpPostHeader(HttpURLConnection connection,
+			JSONRequest request) {
 		connection.setRequestProperty("Content-Type", "application/json");
 		connection.setRequestProperty("charset", "utf-8");
 		connection.setRequestProperty("Content-Length",
 				String.valueOf(request.getRequestBody()));
-
-		return connection;
 	}
 
 	private void sendBody(String body, HttpURLConnection connection)
