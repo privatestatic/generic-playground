@@ -22,6 +22,7 @@ public class JSONFactory {
 		URLConnectorJSON connector = new URLConnectorJSON();
 
 		String responseString = connector.castRequest(m_jsonRequest);
+		log.debug("RESPONSE: " + responseString);
 
 		JSONResponse jsonResponse = new CreateEntityResponse();
 		// jsonResponse.constructResponse(responseString);

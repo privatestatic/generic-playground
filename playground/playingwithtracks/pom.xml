@@ -10,14 +10,31 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
+		<!-- Unit testing :: JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
 		<!-- JSON -->
 		<dependency>
 			<groupId>de.playground</groupId>
 			<artifactId>json</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 	</dependencies>
 
 </project>
