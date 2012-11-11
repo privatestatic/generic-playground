@@ -2,7 +2,7 @@ package de.playground.playingwithtracks.responses;
 
 import org.json.JSONObject;
 
-public interface JSONResponse {
+public interface JSONResponse<T> {
 
-	public Object constructResponse(JSONObject jsonObject);
+	public T constructResponse(JSONObject jsonObject);
 }

@@ -1,6 +1,9 @@
 package de.playground.playingwithtracks.requests;
 
 import de.playground.playingwithtracks.URLConnectorJSON.Method;
+import de.playground.playingwithtracks.responses.JSONResponse;
+import de.playground.playingwithtracks.responses.ListEntityResponse;
+import de.playground.playingwithtracks.responses.types.ListEntityResponseObject;
 
 public class ListEntityRequest extends GoogleTracksJSONRequest {
 
@@ -20,6 +23,11 @@ public class ListEntityRequest extends GoogleTracksJSONRequest {
 	@Override
 	public Method getHttpMethod() {
 		return Method.GET;
+	}
+
+	@Override
+	public JSONResponse<ListEntityResponseObject> getInstanceOfResponse() {
+		return new ListEntityResponse();
 	}
 
 }

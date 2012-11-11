@@ -23,7 +23,12 @@ public class TracksExample {
 		entityList.add(boeing777);
 
 		JSONRequest request = new CreateEntityRequest(entityList);
-		JSONFactory jsonFactory = new JSONFactory(request);
-		jsonFactory.sendJSONRequest();
+
+		TracksConnectionHandler connectionHandler = new TracksConnectionHandler();
+		Object responseObject = connectionHandler.sendJSONRequest(request);
+
+		if (responseObject != null) {
+			log.debug("RESPONSE: {}", responseObject.toString());
+		}
 	}
 }

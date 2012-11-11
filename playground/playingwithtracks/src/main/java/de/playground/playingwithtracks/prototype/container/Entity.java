@@ -16,4 +16,14 @@ public class Entity {
 	public String getType() {
 		return type;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\nNAME == ");
+		sb.append(name);
+		sb.append("\nTYPE == ");
+		sb.append(type);
+		return sb.toString();
+	}
 }

@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 
 import de.playground.playingwithtracks.URLConnectorJSON.Method;
 import de.playground.playingwithtracks.prototype.container.Entity;
+import de.playground.playingwithtracks.responses.CreateEntityResponse;
+import de.playground.playingwithtracks.responses.JSONResponse;
+import de.playground.playingwithtracks.responses.types.CreateEntityResponseObject;
 
 public class CreateEntityRequest extends GoogleTracksJSONRequest {
 
@@ -61,6 +64,11 @@ public class CreateEntityRequest extends GoogleTracksJSONRequest {
 	@Override
 	public Method getHttpMethod() {
 		return Method.POST;
+	}
+
+	@Override
+	public JSONResponse<CreateEntityResponseObject> getInstanceOfResponse() {
+		return new CreateEntityResponse();
 	}
 
 }

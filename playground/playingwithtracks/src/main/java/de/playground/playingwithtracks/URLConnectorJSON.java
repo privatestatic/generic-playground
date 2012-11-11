@@ -7,6 +7,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
+import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.security.cert.Certificate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +32,7 @@ public class URLConnectorJSON {
 
 			// TODO Do the oauth2 authentication with the google server
 
-			HttpURLConnection connection = sendRequest(request);
+			URLConnection connection = sendRequest(request);
 			BufferedReader inputReader = createReader(connection);
 			responseString = readDocument(inputReader);
 		} catch (IOException e) {
@@ -38,14 +42,11 @@ public class URLConnectorJSON {
 		return responseString;
 	}
 
-	private HttpURLConnection sendRequest(JSONRequest request)
-			throws IOException {
+	private URLConnection sendRequest(JSONRequest request) throws IOException {
 
-		if (log.isDebugEnabled()) {
-			log.debug("Sending request body: " + request.getRequestBody());
-		}
+		log.debug("Sending request body: {}", request.getRequestBody());
 
-		HttpURLConnection connection = createConnection(request);
+		HttpURLConnection connection = createHttpsConnection(request);
 
 		switch (request.getHttpMethod()) {
 		case GET:
@@ -62,7 +63,7 @@ public class URLConnectorJSON {
 		return connection;
 	}
 
-	private BufferedReader createReader(HttpURLConnection connection)
+	private BufferedReader createReader(URLConnection connection)
 			throws IOException {
 		BufferedReader inputReader = null;
 
@@ -74,11 +75,14 @@ public class URLConnectorJSON {
 		return inputReader;
 	}
 
-	private HttpURLConnection createConnection(JSONRequest request)
+	private HttpsURLConnection createHttpsConnection(JSONRequest request)
 			throws IOException {
-		HttpURLConnection connection = (HttpURLConnection) request
+		HttpsURLConnection connection = (HttpsURLConnection) request
 				.getRequestURL().openConnection();
 		configureConnection(connection, request.getHttpMethod());
+
+		// log.debug("Https certificate information are: {}",
+		// getHttpsCertificateInformation(connection));
 
 		return connection;
 	}
@@ -99,7 +103,7 @@ public class URLConnectorJSON {
 				String.valueOf(request.getRequestBody()));
 	}
 
-	private void sendBody(String body, HttpURLConnection connection)
+	private void sendBody(String body, URLConnection connection)
 			throws IOException {
 		OutputStreamWriter writer = null;
 		try {
@@ -129,5 +133,39 @@ public class URLConnectorJSON {
 		} else {
 			return "";
 		}
+	}
+
+	private String getHttpsCertificateInformation(HttpsURLConnection con) {
+		if (con != null) {
+			StringBuilder sb = new StringBuilder();
+			try {
+				sb.append("\nResponse Code : ");
+				sb.append(con.getResponseCode());
+				sb.append("\nCipher Suite : ");
+				sb.append(con.getCipherSuite());
+				sb.append("\n");
+
+				Certificate[] certs = con.getServerCertificates();
+				for (Certificate cert : certs) {
+					sb.append("\nCert Type : ");
+					sb.append(cert.getType());
+					sb.append("\nCert Hash Code : ");
+					sb.append(cert.hashCode());
+					sb.append("\nCert Public Key Algorithm : ");
+					sb.append(cert.getPublicKey().getAlgorithm());
+					sb.append("\nCert Public Key Format : ");
+					sb.append(cert.getPublicKey().getFormat());
+					sb.append("\n");
+				}
+
+			} catch (IOException e) {
+				return "Error while retrieving certificate information: "
+						+ e.getMessage();
+			}
+
+			return sb.toString();
+
+		}
+		return "Given connection was null!";
 	}
 }
