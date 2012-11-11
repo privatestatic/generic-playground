@@ -1,7 +1,10 @@
 package de.playground.playingwithtracks.responses.types;
 
-public class DeleteEntityResponseObject {
+public class DeleteEntityResponseObject extends ResponseObject {
 	private boolean successfull = false;
+
+	public DeleteEntityResponseObject() {
+	}
 
 	public DeleteEntityResponseObject(boolean successfull) {
 		this.successfull = successfull;

@@ -10,20 +10,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.playground.playingwithtracks.prototype.container.TracksError;
-import de.playground.playingwithtracks.responses.types.ErrorResponseObject;
+import de.playground.playingwithtracks.responses.types.ErrorObject;
 
-public class ErrorResponse implements JSONResponse<ErrorResponseObject> {
+public class ErrorResponse implements JSONResponse<ErrorObject> {
 
 	private static final Logger log = LoggerFactory
 			.getLogger(ErrorResponse.class);
 
 	@Override
-	public ErrorResponseObject constructResponse(JSONObject jsonObject) {
-		ErrorResponseObject errorMessage = buildErrorResponse(jsonObject);
+	public ErrorObject constructResponse(JSONObject jsonObject) {
+		ErrorObject errorMessage = buildErrorResponse(jsonObject);
 		return errorMessage;
 	}
 
-	private ErrorResponseObject buildErrorResponse(JSONObject jsonObject) {
+	private ErrorObject buildErrorResponse(JSONObject jsonObject) {
 		try {
 			JSONObject errorObject = jsonObject.getJSONObject("error");
 
@@ -42,7 +42,7 @@ public class ErrorResponse implements JSONResponse<ErrorResponseObject> {
 				errorList.add(new TracksError(domain, reason, message));
 			}
 
-			return new ErrorResponseObject(errorList, errorCode, errorMessage);
+			return new ErrorObject(errorList, errorCode, errorMessage);
 		} catch (JSONException e) {
 			log.error(e.toString());
 			return null;

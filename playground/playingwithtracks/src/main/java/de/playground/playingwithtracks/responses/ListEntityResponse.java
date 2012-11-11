@@ -12,20 +12,14 @@ import org.slf4j.LoggerFactory;
 import de.playground.playingwithtracks.prototype.container.Entity;
 import de.playground.playingwithtracks.responses.types.ListEntityResponseObject;
 
-public class ListEntityResponse implements
-		JSONResponse<ListEntityResponseObject> {
+public class ListEntityResponse extends
+		EntityResponse<ListEntityResponseObject> {
 
 	private static final Logger log = LoggerFactory
 			.getLogger(ListEntityResponse.class);
 
 	@Override
-	public ListEntityResponseObject constructResponse(JSONObject jsonObject) {
-		ListEntityResponseObject listEntityResponseObject = buildListEntityResponse(jsonObject);
-		return listEntityResponseObject;
-	}
-
-	private ListEntityResponseObject buildListEntityResponse(
-			JSONObject jsonObject) {
+	public ListEntityResponseObject buildResponse(JSONObject jsonObject) {
 		try {
 			JSONArray entitiesArray = jsonObject.getJSONArray("entities");
 			Map<String, Entity> entitiesMap = new HashMap<String, Entity>();
@@ -44,5 +38,10 @@ public class ListEntityResponse implements
 			log.error(e.toString());
 			return null;
 		}
+	}
+
+	@Override
+	public ListEntityResponseObject buildResponse() {
+		return new ListEntityResponseObject();
 	}
 }

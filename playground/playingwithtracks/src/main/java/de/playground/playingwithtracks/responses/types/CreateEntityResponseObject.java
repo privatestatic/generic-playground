@@ -2,9 +2,12 @@ package de.playground.playingwithtracks.responses.types;
 
 import java.util.List;
 
-public class CreateEntityResponseObject {
+public class CreateEntityResponseObject extends ResponseObject {
 
 	private List<String> entityIds;
+
+	public CreateEntityResponseObject() {
+	}
 
 	public CreateEntityResponseObject(List<String> entityIds) {
 		this.entityIds = entityIds;

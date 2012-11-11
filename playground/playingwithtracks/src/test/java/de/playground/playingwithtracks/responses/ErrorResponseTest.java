@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.playground.playingwithtracks.prototype.container.TracksError;
-import de.playground.playingwithtracks.responses.types.ErrorResponseObject;
+import de.playground.playingwithtracks.responses.types.ErrorObject;
 
 public class ErrorResponseTest {
 
@@ -44,7 +44,7 @@ public class ErrorResponseTest {
 		} catch (JSONException e) {
 			log.error(e.toString());
 		}
-		ErrorResponseObject errorResponseObject = underTest
+		ErrorObject errorResponseObject = underTest
 				.constructResponse(jsonObject);
 		int error_code = errorResponseObject.getCode();
 		String error_message = errorResponseObject.getMessage();

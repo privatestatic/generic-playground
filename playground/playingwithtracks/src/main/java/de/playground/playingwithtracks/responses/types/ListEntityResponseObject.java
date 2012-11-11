@@ -5,8 +5,11 @@ import java.util.Map.Entry;
 
 import de.playground.playingwithtracks.prototype.container.Entity;
 
-public class ListEntityResponseObject {
+public class ListEntityResponseObject extends ResponseObject {
 	private Map<String, Entity> entityMap;
+
+	public ListEntityResponseObject() {
+	}
 
 	public ListEntityResponseObject(Map<String, Entity> entityMap) {
 		this.entityMap = entityMap;

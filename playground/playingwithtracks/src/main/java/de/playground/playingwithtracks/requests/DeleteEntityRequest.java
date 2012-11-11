@@ -2,7 +2,7 @@ package de.playground.playingwithtracks.requests;
 
 import de.playground.playingwithtracks.URLConnectorJSON.Method;
 import de.playground.playingwithtracks.responses.DeleteEntityResponse;
-import de.playground.playingwithtracks.responses.JSONResponse;
+import de.playground.playingwithtracks.responses.EntityResponse;
 import de.playground.playingwithtracks.responses.types.DeleteEntityResponseObject;
 
 public class DeleteEntityRequest extends GoogleTracksJSONRequest {
@@ -26,7 +26,7 @@ public class DeleteEntityRequest extends GoogleTracksJSONRequest {
 	}
 
 	@Override
-	public JSONResponse<DeleteEntityResponseObject> getInstanceOfResponse() {
+	public EntityResponse<DeleteEntityResponseObject> getInstanceOfResponse() {
 		return new DeleteEntityResponse();
 	}
 

@@ -2,11 +2,12 @@ package de.playground.playingwithtracks.requests;
 
 import java.net.URL;
 import de.playground.playingwithtracks.URLConnectorJSON.Method;
-import de.playground.playingwithtracks.responses.JSONResponse;
+import de.playground.playingwithtracks.responses.EntityResponse;
+import de.playground.playingwithtracks.responses.types.ResponseObject;
 
 public interface JSONRequest {
 
-	JSONResponse<?> getInstanceOfResponse();
+	EntityResponse<? extends ResponseObject> getInstanceOfResponse();
 
 	String getRequestTarget();
 

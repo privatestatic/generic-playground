@@ -6,29 +6,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.playground.playingwithtracks.requests.JSONRequest;
+import de.playground.playingwithtracks.responses.EntityResponse;
 import de.playground.playingwithtracks.responses.ErrorResponse;
 import de.playground.playingwithtracks.responses.JSONResponse;
-import de.playground.playingwithtracks.responses.types.ErrorResponseObject;
+import de.playground.playingwithtracks.responses.types.ErrorObject;
+import de.playground.playingwithtracks.responses.types.ResponseObject;
 
 public class TracksConnectionHandler {
 
 	private static final Logger log = LoggerFactory
 			.getLogger(TracksConnectionHandler.class);
 
-	public Object sendJSONRequest(JSONRequest jsonRequest) {
+	public ResponseObject sendJSONRequest(JSONRequest jsonRequest) {
+		ResponseObject responseObject;
 		URLConnectorJSON connector = new URLConnectorJSON();
 		String responseString = connector.castRequest(jsonRequest);
 
 		JSONObject jsonObject = parseJSON(responseString);
 		if (jsonObject != null) {
+			EntityResponse<?> jsonResponse = jsonRequest
+					.getInstanceOfResponse();
+
 			if (jsonObject.has("error")) {
-				JSONResponse<ErrorResponseObject> jsonResponse = new ErrorResponse();
-				return jsonResponse.constructResponse(jsonObject);
-			} else {
-				JSONResponse<?> jsonResponse = jsonRequest
-						.getInstanceOfResponse();
-				return jsonResponse.constructResponse(jsonObject);
+				JSONResponse<ErrorObject> jsonErrorResponse = new ErrorResponse();
+				ErrorObject errorObject = jsonErrorResponse
+						.constructResponse(jsonObject);
+				jsonResponse.addErrorObject(errorObject);
 			}
+			responseObject = jsonResponse.constructResponse(jsonObject);
+			return responseObject;
 		}
 		return null;
 	}

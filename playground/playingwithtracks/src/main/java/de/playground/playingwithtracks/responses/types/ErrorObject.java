@@ -4,12 +4,13 @@ import java.util.List;
 
 import de.playground.playingwithtracks.prototype.container.TracksError;
 
-public class ErrorResponseObject {
+public class ErrorObject {
 	private List<TracksError> errors;
 	private int code;
 	private String message;
 
-	public ErrorResponseObject(List<TracksError> errors, int code, String message) {
+	public ErrorObject(List<TracksError> errors, int code,
+			String message) {
 		this.errors = errors;
 		this.code = code;
 		this.message = message;

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import de.playground.playingwithtracks.prototype.container.Entity;
 import de.playground.playingwithtracks.requests.CreateEntityRequest;
 import de.playground.playingwithtracks.requests.JSONRequest;
+import de.playground.playingwithtracks.responses.types.ResponseObject;
 
 public class TracksExample {
 	private static final Logger log = LoggerFactory
@@ -25,7 +26,8 @@ public class TracksExample {
 		JSONRequest request = new CreateEntityRequest(entityList);
 
 		TracksConnectionHandler connectionHandler = new TracksConnectionHandler();
-		Object responseObject = connectionHandler.sendJSONRequest(request);
+		ResponseObject responseObject = connectionHandler
+				.sendJSONRequest(request);
 
 		if (responseObject != null) {
 			log.debug("RESPONSE: {}", responseObject.toString());

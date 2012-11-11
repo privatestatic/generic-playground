@@ -11,20 +11,19 @@ import org.slf4j.LoggerFactory;
 
 import de.playground.playingwithtracks.responses.types.CreateEntityResponseObject;
 
-public class CreateEntityResponse implements
-		JSONResponse<CreateEntityResponseObject> {
+public class CreateEntityResponse extends
+		EntityResponse<CreateEntityResponseObject> {
 
 	private static final Logger log = LoggerFactory
 			.getLogger(CreateEntityResponse.class);
 
 	@Override
-	public CreateEntityResponseObject constructResponse(JSONObject jsonObject) {
-		CreateEntityResponseObject createEntityResponseObject = buildCreateEntityResponse(jsonObject);
-		return createEntityResponseObject;
+	public CreateEntityResponseObject buildResponse() {
+		return new CreateEntityResponseObject();
 	}
 
-	private CreateEntityResponseObject buildCreateEntityResponse(
-			JSONObject jsonObject) {
+	@Override
+	public CreateEntityResponseObject buildResponse(JSONObject jsonObject) {
 		try {
 			JSONArray entityIdsArray = jsonObject.getJSONArray("entityIds");
 			List<String> entityIdList = new ArrayList<String>();
