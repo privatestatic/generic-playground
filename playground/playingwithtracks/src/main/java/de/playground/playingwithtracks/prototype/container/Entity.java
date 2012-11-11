@@ -4,6 +4,11 @@ public class Entity {
 	private String name;
 	private String type;
 
+	public Entity(String name) {
+		this.name = name;
+		this.type = null;
+	}
+
 	public Entity(String name, String type) {
 		this.name = name;
 		this.type = type;
